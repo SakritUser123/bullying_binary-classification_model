@@ -50,23 +50,28 @@ if update_clicked:
         X_new = vectorizer.transform([user_input])
         before = model.predict(X_new)[0]
 
-        if not hasattr(model, 'classes_'):
-            model.partial_fit(X_new, [label], classes=classes)
-        else:
-            model.partial_fit(X_new, [label])
-
+        # Update the model with the new label using partial_fit
+        try:
+            if not hasattr(model, 'classes_'):
+                model.partial_fit(X_new, [label], classes=classes)
+            else:
+                model.partial_fit(X_new, [label])
+        except Exception as e:
+            st.error(f"Error while updating model: {e}")
+        
         after = model.predict(X_new)[0]
 
-        # Save updated model
+        # Save updated model and vectorizer
         with open('bullying_model_svm_two.pkl', 'wb') as f:
             pickle.dump(model, f)
         with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
 
-        # Update session state model immediately
+        # Update session state with the new model immediately
         st.session_state.model = model
         st.session_state.vectorizer = vectorizer
 
+        # Provide feedback to user
         st.info(f"🔄 Model Updated\n**Before:** {bullying_dict[before]}\n**After:** {bullying_dict[after]}")
 
         # Reset after update
