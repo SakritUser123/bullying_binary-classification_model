@@ -4,9 +4,9 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load trained model and vectorizer
-with open('bullying_model_svm_two.pkl', 'rb') as f:
+with open('bullying_model_sgd.pkl', 'rb') as f:
     model = pickle.load(f)
-with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
+with open('BullyingVectorizer_sgd.pkl', 'rb') as f:
     vectorizer = pickle.load(f)
 
 # Class labels for training
@@ -55,9 +55,9 @@ if st.button("📈 Update Model"):
         after = model.predict(X_new)[0]
 
         # Save updated model
-        with open('bullying_model_svm_two.pkl', 'wb') as f:
+        with open('bullying_model_sgd.pkl', 'wb') as f:
             pickle.dump(model, f)
-        with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
+        with open('BullyingVectorizer_sgd.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
 
         # Show update info
