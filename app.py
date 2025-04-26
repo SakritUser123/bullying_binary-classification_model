@@ -52,7 +52,7 @@ if update_clicked:
         else:
             model.partial_fit(X_new, [label])
 
-        after = model.predict(X_new)[0]
+        
 
         # Save updated model
         with open('bullying_model_svm_two.pkl', 'wb') as f:
@@ -63,6 +63,7 @@ if update_clicked:
             model = pickle.load(f)
         with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
             vectorizer = pickle.load(f)
+        after = model.predict(X_new)[0]
 
         st.info(f"🔄 Model Updated\n**Before:** {before}\n**After:** {after}")
 
