@@ -54,29 +54,30 @@ label = st.selectbox("✅ Confirm or correct the emotion label:", classes)
 # Update Model Button
 if st.button("📈 Update Model"):
     if user_input.strip():
+        # Debug: Display user input and selected label
+        st.write(f"User Input for Model Update: {user_input}")
+        st.write(f"Selected Label for Update: {label}")
+        
+        # Transform input to vectorized form
         X_new = vectorizer.transform([user_input])
 
-        # Prediction before update
+        # Prediction before model update
         before = model.predict(X_new)[0]
-
-        # Debug: Check if label is correctly selected
-        st.write(f"Selected Label: {label}")
+        st.write(f"Prediction before update: {before}")
         
-        # Debug: Check transformed input
-        st.write(f"Transformed Input (X_new): {X_new}")
-
-        # First-time setup for partial_fit
+        # First-time setup for partial_fit (if model doesn't have 'classes_')
         if not hasattr(model, 'classes_'):
             st.write("Model does not have 'classes_' attribute, initializing 'partial_fit'.")
             model.partial_fit(X_new, [label], classes=classes)
         else:
             st.write(f"Model has 'classes_' attribute, updating with 'partial_fit'.")
             model.partial_fit(X_new, [label])
-
-        # Prediction after update
+        
+        # Prediction after model update
         after = model.predict(X_new)[0]
+        st.write(f"Prediction after update: {after}")
 
-        # Save updated model
+        # Save updated model and vectorizer
         with open('bullying_model_sgd.pkl', 'wb') as f:
             pickle.dump(model, f)
         with open('BullyingVectorizer_sgd.pkl', 'wb') as f:
@@ -84,7 +85,9 @@ if st.button("📈 Update Model"):
 
         # Show update info
         st.info(f"🔄 Model Updated\n**Before:** {before}\n**After:** {after}")
-        st.session_state.predicted_emotion = ""  # Clear old prediction
+
+        # Clear the old prediction
+        st.session_state.predicted_emotion = ""  
 
 # Save input for next run
 st.session_state.user_input = user_input
