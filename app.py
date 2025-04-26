@@ -84,7 +84,7 @@ st.markdown(html_code, unsafe_allow_html=True)
 user_says = st.text_input('')
 st.write('When you have your answer, delete all the text for the next question.')
 
-elif button_2:
+if button_2:
     st.write("You pressed Button 2!")
 
     st.write("Press a button to see an action.")
