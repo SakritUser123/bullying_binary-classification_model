@@ -59,6 +59,10 @@ if update_clicked:
             pickle.dump(model, f)
         with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
+        with open('bullying_model_svm_two.pkl', 'rb') as f:
+            model = pickle.load(f)
+        with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
+            vectorizer = pickle.load(f)
 
         st.info(f"🔄 Model Updated\n**Before:** {before}\n**After:** {after}")
 
