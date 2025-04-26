@@ -38,7 +38,10 @@ if st.button("🔍 Predict Emotion"):
 
         # Predict using the model
         predicted = st.session_state.model.predict(X_new)[0]
-
+        if predicted == 0:
+            predicted = 'Not Bullying'
+        if predicted == 1;
+        predicted = 'Bullying'
         # Debug: Show prediction before model update
         st.write(f"Prediction before update: {predicted}")
 
