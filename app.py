@@ -1,6 +1,6 @@
 import streamlit as st
 import pickle
-
+st.cache_data.clear()
 
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
