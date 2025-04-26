@@ -1,7 +1,7 @@
 import streamlit as st
 import pickle
 
-# --- Load model and vectorizer once ---
+# --- Load model and vectorizer only once and keep them in session state ---
 if "model" not in st.session_state:
     with open('bullying_model_svm_two.pkl', 'rb') as f:
         st.session_state.model = pickle.load(f)
@@ -47,27 +47,37 @@ update_clicked = st.button("📈 Update Model")
 
 if update_clicked:
     if user_input.strip():
+        # Convert input into vector form
         X_new = vectorizer.transform([user_input])
-        before = model.predict(X_new)[0]
 
-        # Update the model with the new label using partial_fit
+        # Print before model prediction (for debugging)
+        before = model.predict(X_new)[0]
+        st.write(f"Before update prediction: {bullying_dict[before]}")
+
+        # Update the model with new label using partial_fit
         try:
+            # Using partial_fit to update model with the new input and label
             if not hasattr(model, 'classes_'):
+                st.write("Classes_ attribute is not present, passing classes explicitly.")
                 model.partial_fit(X_new, [label], classes=classes)
             else:
+                st.write("Classes_ attribute is present, updating model.")
                 model.partial_fit(X_new, [label])
         except Exception as e:
             st.error(f"Error while updating model: {e}")
-        
-        after = model.predict(X_new)[0]
+            return
 
-        # Save updated model and vectorizer
+        # Print after model prediction (for debugging)
+        after = model.predict(X_new)[0]
+        st.write(f"After update prediction: {bullying_dict[after]}")
+
+        # Save updated model and vectorizer to disk
         with open('bullying_model_svm_two.pkl', 'wb') as f:
             pickle.dump(model, f)
         with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
 
-        # Update session state with the new model immediately (do not reload)
+        # Save the updated model and vectorizer directly into session state
         st.session_state.model = model
         st.session_state.vectorizer = vectorizer
 
