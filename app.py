@@ -8,9 +8,9 @@ if "predicted_emotion" not in st.session_state:
     st.session_state.predicted_emotion = ""
 
 
-with open('bullying_model_svm.pkl', 'rb') as f:
+with open('bullying_model_svm_two.pkl', 'rb') as f:
     model = pickle.load(f)
-with open('BullyingVectorizer_svm.pkl', 'rb') as f:
+with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
     vectorizer = pickle.load(f)
 
 classes = [0, 1]
@@ -55,9 +55,9 @@ if update_clicked:
         after = model.predict(X_new)[0]
 
         # Save updated model
-        with open('bullying_model_svm.pkl', 'wb') as f:
+        with open('bullying_model_svm_two.pkl', 'wb') as f:
             pickle.dump(model, f)
-        with open('BullyingVectorizer_svm.pkl', 'wb') as f:
+        with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
 
         st.info(f"🔄 Model Updated\n**Before:** {before}\n**After:** {after}")
