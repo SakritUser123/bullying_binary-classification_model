@@ -1,23 +1,26 @@
 import streamlit as st
 import pickle
 
+# --- Load model and vectorizer once ---
+if "model" not in st.session_state:
+    with open('bullying_model_svm_two.pkl', 'rb') as f:
+        st.session_state.model = pickle.load(f)
+    with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
+        st.session_state.vectorizer = pickle.load(f)
 
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
 if "predicted_emotion" not in st.session_state:
     st.session_state.predicted_emotion = ""
 
-
-with open('bullying_model_svm_two.pkl', 'rb') as f:
-    model = pickle.load(f)
-with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
-    vectorizer = pickle.load(f)
-
+model = st.session_state.model
+vectorizer = st.session_state.vectorizer
 classes = [0, 1]
-
+bullying_dict = {0: "Not Bullying", 1: "Bullying"}
 
 st.title("💬 Bullying Detection in Transport & Online Model Update")
 
+# User input
 user_input = st.text_input(
     "✏️ Enter a sentence to detect whether it is bullying:",
     value=st.session_state.user_input
@@ -33,8 +36,8 @@ if predict_clicked:
         st.session_state.user_input = user_input  # Save current input
 
 # --- Display prediction ---
-if "predicted_emotion" in st.session_state and st.session_state.predicted_emotion != "":
-    st.success(f"Predicted Emotion: **{st.session_state.predicted_emotion}**")
+if st.session_state.predicted_emotion != "":
+    st.success(f"Prediction: **{bullying_dict[st.session_state.predicted_emotion]}**")
 
 # --- Label correction ---
 label = st.selectbox("✅ Confirm or correct the bullying label:", classes)
@@ -52,20 +55,19 @@ if update_clicked:
         else:
             model.partial_fit(X_new, [label])
 
-        
+        after = model.predict(X_new)[0]
 
         # Save updated model
         with open('bullying_model_svm_two.pkl', 'wb') as f:
             pickle.dump(model, f)
         with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
-        with open('bullying_model_svm_two.pkl', 'rb') as f:
-            model = pickle.load(f)
-        with open('BullyingVectorizer_svm_two.pkl', 'rb') as f:
-            vectorizer = pickle.load(f)
-        after = model.predict(X_new)[0]
 
-        st.info(f"🔄 Model Updated\n**Before:** {before}\n**After:** {after}")
+        # Update session state model immediately
+        st.session_state.model = model
+        st.session_state.vectorizer = vectorizer
+
+        st.info(f"🔄 Model Updated\n**Before:** {bullying_dict[before]}\n**After:** {bullying_dict[after]}")
 
         # Reset after update
         st.session_state.predicted_emotion = ""
