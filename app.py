@@ -28,13 +28,13 @@ user_input = st.text_input("✏️ Enter a sentence:", value=st.session_state.us
 if st.button("🔍 Predict Emotion"):
     if user_input.strip():
         # Debug: Display user input
-        st.write(f"User Input: {user_input}")
+        
 
         # Transform input text to model-compatible format
         X_new = st.session_state.vectorizer.transform([user_input])
 
         # Debug: Check the transformed input
-        st.write(f"Transformed Input: {X_new}")
+        
 
         # Predict using the model
         predicted = st.session_state.model.predict(X_new)[0]
@@ -43,7 +43,7 @@ if st.button("🔍 Predict Emotion"):
         if predicted == 1:
             predicted = 'Bullying'
         # Debug: Show prediction before model update
-        st.write(f"Prediction before update: {predicted}")
+        
 
         # Update predicted emotion in session state
         st.session_state.predicted_emotion = predicted
@@ -62,15 +62,14 @@ st.write(f"Selected Label: {label}")
 if st.button("📈 Update Model"):
     if user_input.strip():
         # Debug: Display user input and selected label
-        st.write(f"User Input for Model Update: {user_input}")
-        st.write(f"Selected Label for Update: {label}")
+        
 
         # Transform input to vectorized form
         X_new = st.session_state.vectorizer.transform([user_input])
 
         # Prediction before model update
         before = st.session_state.model.predict(X_new)[0]
-        st.write(f"Prediction before update: {before}")
+        
 
         # First-time setup for partial_fit (if model doesn't have 'classes_')
         if not hasattr(st.session_state.model, 'classes_'):
