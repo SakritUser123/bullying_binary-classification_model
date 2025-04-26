@@ -50,7 +50,7 @@ if st.button("🔍 Predict Emotion"):
 
 # Show prediction if available
 if st.session_state.predicted_emotion is not None:
-    st.success(f"Predicted Emotion: **{st.session_state.predicted_emotion}**")
+    st.success(f"Predicted Answer: **{st.session_state.predicted_emotion}**")
 
 # Mapping readable names to labels
 label_map = {
