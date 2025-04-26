@@ -10,7 +10,7 @@ with open('BullyingVectorizer_sgd.pkl', 'rb') as f:
     vectorizer = pickle.load(f)
 
 # Class labels for training
-classes = [0,1]
+classes = [0, 1]
 
 # Session state for persistent UI elements
 if 'user_input' not in st.session_state:
@@ -52,35 +52,29 @@ if st.session_state.predicted_emotion:
 label = st.selectbox("✅ Confirm or correct the emotion label:", classes)
 
 # Update Model Button
-# Update Model Button
 if st.button("📈 Update Model"):
     if user_input.strip():
-        # Debug: Check if input is valid
-        st.write(f"User Input: {user_input}")
-        
-        # Transform input text to model-compatible format
         X_new = vectorizer.transform([user_input])
-        
-        # Debug: Check the transformed input
-        st.write(f"Transformed Input: {X_new}")
-        
+
         # Prediction before update
         before = model.predict(X_new)[0]
+
+        # Debug: Check if label is correctly selected
+        st.write(f"Selected Label: {label}")
         
-        # Debug: Check prediction before update
-        st.write(f"Prediction before update: {before}")
-        
+        # Debug: Check transformed input
+        st.write(f"Transformed Input (X_new): {X_new}")
+
         # First-time setup for partial_fit
         if not hasattr(model, 'classes_'):
+            st.write("Model does not have 'classes_' attribute, initializing 'partial_fit'.")
             model.partial_fit(X_new, [label], classes=classes)
         else:
+            st.write(f"Model has 'classes_' attribute, updating with 'partial_fit'.")
             model.partial_fit(X_new, [label])
 
         # Prediction after update
         after = model.predict(X_new)[0]
-        
-        # Debug: Check prediction after update
-        st.write(f"Prediction after update: {after}")
 
         # Save updated model
         with open('bullying_model_sgd.pkl', 'wb') as f:
@@ -94,4 +88,3 @@ if st.button("📈 Update Model"):
 
 # Save input for next run
 st.session_state.user_input = user_input
-
