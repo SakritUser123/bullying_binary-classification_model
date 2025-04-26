@@ -20,7 +20,7 @@ if 'predicted_emotion' not in st.session_state:
     st.session_state.predicted_emotion = ""
 
 st.title("💬 Bullying prediction & Online Model Update")
-
+st.write("Note: You will have to update the model a few times for it to learn.")
 # Text input
 user_input = st.text_input("✏️ Enter a sentence:", value=st.session_state.user_input)
 
