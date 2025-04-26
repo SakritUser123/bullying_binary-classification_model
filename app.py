@@ -172,6 +172,6 @@ Documenting Evidence: When safe to do so, collecting evidence (like screenshots 
 Bullying—whether physical or digital—remains a significant challenge in both school and public transportation settings. It affects individuals of all ages and can have long-lasting consequences on emotional and psychological health. Addressing this issue requires a collective effort from peers, educators, transit staff, and law enforcement. Through awareness, intervention, and continued advocacy, we can create safer, more respectful transportation environments for everyone.
 </p>
 <img src="https://www.stopbullying.gov/sites/default/files/2019-11/sb-620x529-laws_policy_map.gif" alt="This is a graph of the which U.S. states have laws or policies or none of the above to prevent bullying." width="600" height="500">
-<h3>So this is where you will write the comment that bullyer said and find out whoever is bullying to work.</h3>"""
+
 st.markdown(html_code, unsafe_allow_html=True)
 
