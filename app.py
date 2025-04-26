@@ -75,10 +75,12 @@ if st.button("📈 Update Model"):
         # First-time setup for partial_fit (if model doesn't have 'classes_')
         if not hasattr(st.session_state.model, 'classes_'):
             st.write("Model does not have 'classes_' attribute, initializing 'partial_fit'.")
-            st.session_state.model.partial_fit(X_new, [label], classes=classes)
+            for i in range(5):
+                st.session_state.model.partial_fit(X_new, [label], classes=classes)
         else:
             st.write(f"Model has 'classes_' attribute, updating with 'partial_fit'.")
-            st.session_state.model.partial_fit(X_new, [label])
+            for i in range(5):
+                st.session_state.model.partial_fit(X_new, [label])
 
         # Prediction after model update
         after = st.session_state.model.predict(X_new)[0]
