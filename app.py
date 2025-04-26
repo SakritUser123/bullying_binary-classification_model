@@ -67,7 +67,7 @@ if update_clicked:
         with open('BullyingVectorizer_svm_two.pkl', 'wb') as f:
             pickle.dump(vectorizer, f)
 
-        # Update session state with the new model immediately
+        # Update session state with the new model immediately (do not reload)
         st.session_state.model = model
         st.session_state.vectorizer = vectorizer
 
