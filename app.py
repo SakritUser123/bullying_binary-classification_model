@@ -148,5 +148,4 @@ Bullying—whether physical or digital—remains a significant challenge in both
 <img src="https://www.stopbullying.gov/sites/default/files/2019-11/sb-620x529-laws_policy_map.gif" alt="This is a graph of the which U.S. states have laws or policies or none of the above to prevent bullying." width="600" height="500">
 <h3>So this is where you will write the comment that bullyer said and find out whoever is bullying to work.</h3>"""
 st.markdown(html_code, unsafe_allow_html=True)
-user_says = st.text_input('')
-st.write('When you have your answer, delete all the text for the next question.')
+
