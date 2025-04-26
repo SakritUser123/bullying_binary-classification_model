@@ -1,5 +1,8 @@
 import streamlit as st
+if "user_input" not in st.session_state:
+    st.session_state.user_input = ""
 import pickle
+
 
 with open('bullying_model_svm.pkl', 'rb') as f:
     model = pickle.load(f)
