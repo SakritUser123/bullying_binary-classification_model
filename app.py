@@ -52,12 +52,19 @@ if st.button("🔍 Predict Emotion"):
 if st.session_state.predicted_emotion is not None:
     st.success(f"Predicted Emotion: **{st.session_state.predicted_emotion}**")
 
-# Dropdown to update label
-label = st.selectbox("✅ Confirm or correct the emotion label:", classes)
+# Mapping readable names to labels
+label_map = {
+    "Not Bullying": 0,
+    "Bullying": 1
+}
 
-# Debug: Show selected label
-st.write(f"Selected Label: {label}")
+# Dropdown showing readable text
+selected_label_name = st.selectbox("✅ Confirm or correct the emotion label:", list(label_map.keys()))
 
+# Get the numeric label for model training
+label = label_map[selected_label_name]
+
+st.write(f"Selected Label: {selected_label_name} (Label {label})")
 # Update Model Button
 if st.button("📈 Update Model"):
     if user_input.strip():
